@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-
 export const useGetData = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['todos'],

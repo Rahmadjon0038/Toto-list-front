@@ -4,7 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
 import { useDelete, useGetData, usePostdata, useUpdate } from './server';
-
+import image from "./assets/react.svg";
+import bgvideo  from './assets/bgvideo.mp4'
 function App() {
   const [addata, setAddata] = useState('');
   const { data, isLoading } = useGetData()
@@ -162,73 +163,77 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
 
 
   return (
-    <div className="container">
-      <ToastContainer position="top-left"
-        reverseOrder={true} />
-      <h1>Todo List</h1>
-      {/* <input onChange={bannerChange} type="file" style={{ marginBottom: '10px' }} /> */}
-      <div className="input-section">
-        <input
-          value={addata}
-          onChange={(e) => setAddata(e.target.value)}
-          type="text"
-          onKeyDown={(e) => e.key === "Enter" ? addTask() : {}}
-          placeholder="Yangi vazifa kiriting..."
-        />
-        <button onClick={addTask}>Qo‘shish</button>
+    <div className='wrapper'>
+      <div className="container">
+        <ToastContainer position="top-left"
+          reverseOrder={true} />
+        <h1>Todo List</h1>
+        {/* <input onChange={bannerChange} type="file" style={{ marginBottom: '10px' }} /> */}
+        <div className="input-section">
+          <input
+            value={addata}
+            onChange={(e) => setAddata(e.target.value)}
+            type="text"
+            onKeyDown={(e) => e.key === "Enter" ? addTask() : {}}
+            placeholder="Yangi vazifa kiriting..."
+          />
+          <button onClick={addTask}>Qo‘shish</button>
+        </div>
+        <ul className="todo-list">
+          {data?.map((item, index) => (
+            <motion.li
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              key={item.id}>
+
+              <label class="neon-checkbox">
+                <input type="checkbox" checked={item.created}
+                  onChange={() => handleComplate(item)} />
+                <div class="neon-checkbox__frame">
+                  <div class="neon-checkbox__box">
+                    <div class="neon-checkbox__check-container">
+                      <svg viewBox="0 0 24 24" class="neon-checkbox__check">
+                        <path d="M3,12.5l7,7L21,5"></path>
+                      </svg>
+                    </div>
+                    <div class="neon-checkbox__glow"></div>
+                    <div class="neon-checkbox__borders">
+                      <span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="neon-checkbox__effects">
+                    <div class="neon-checkbox__particles">
+                      <span></span><span></span><span></span><span></span> <span></span
+                      ><span></span><span></span><span></span> <span></span><span></span
+                      ><span></span><span></span>
+                    </div>
+                    <div class="neon-checkbox__rings">
+                      <div class="ring"></div>
+                      <div class="ring"></div>
+                      <div class="ring"></div>
+                    </div>
+                    <div class="neon-checkbox__sparks">
+                      <span></span><span></span><span></span><span></span>
+                    </div>
+                  </div>
+                </div>
+
+
+              </label>
+              {/* <img src={image} alt="" /> */}
+              <span style={{ textDecoration: item.created ? 'line-through' : '' }}>
+                <span>{item.task}</span>
+              </span>
+
+              <button class="btn" onClick={() => handeDelete(item.id)}>delete</button>
+
+            </motion.li>
+          ))}
+        </ul>
       </div>
-      <ul className="todo-list">
-        {data?.map((item, index) => (
-          <motion.li
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            key={item.id}>
-
-            <label class="neon-checkbox">
-              <input type="checkbox" checked={item.created}
-                onChange={() => handleComplate(item)} />
-              <div class="neon-checkbox__frame">
-                <div class="neon-checkbox__box">
-                  <div class="neon-checkbox__check-container">
-                    <svg viewBox="0 0 24 24" class="neon-checkbox__check">
-                      <path d="M3,12.5l7,7L21,5"></path>
-                    </svg>
-                  </div>
-                  <div class="neon-checkbox__glow"></div>
-                  <div class="neon-checkbox__borders">
-                    <span></span><span></span><span></span><span></span>
-                  </div>
-                </div>
-                <div class="neon-checkbox__effects">
-                  <div class="neon-checkbox__particles">
-                    <span></span><span></span><span></span><span></span> <span></span
-                    ><span></span><span></span><span></span> <span></span><span></span
-                    ><span></span><span></span>
-                  </div>
-                  <div class="neon-checkbox__rings">
-                    <div class="ring"></div>
-                    <div class="ring"></div>
-                    <div class="ring"></div>
-                  </div>
-                  <div class="neon-checkbox__sparks">
-                    <span></span><span></span><span></span><span></span>
-                  </div>
-                </div>
-              </div>
-
-
-            </label>
-
-            <span style={{ textDecoration: item.created ? 'line-through' : '' }}>
-              <span>{item.task}</span>
-            </span>
-
-            <button onClick={() => handeDelete(item.id)}>O‘chirish</button>
-          </motion.li>
-        ))}
-      </ul>
     </div>
+
   );
 }
 
