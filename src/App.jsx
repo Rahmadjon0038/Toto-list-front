@@ -5,22 +5,27 @@ import 'react-toastify/dist/ReactToastify.css';
 import { motion } from 'framer-motion';
 import { useDelete, useGetData, usePostdata, useUpdate } from './server';
 import image from "./assets/react.svg";
-import bgvideo  from './assets/bgvideo.mp4'
+import bgvideo from './assets/bgvideo.mp4'
+import defaultuser from './assets/user.png'
 function App() {
   const [addata, setAddata] = useState('');
+  const [banner, setBanner] = useState(0);
   const { data, isLoading } = useGetData()
   const { mutate } = usePostdata()
   const { mutate: deleMutate } = useDelete();
   const { mutate: updateMutate } = useUpdate()
+
   const addTask = () => {
     const trimdata = addata?.trim();
     if (trimdata && trimdata.length > 0) {
-      mutate(trimdata);
-      setAddata('')
+      mutate({ task: trimdata, banner });
+      setAddata(''); 
+      setBanner(null);
     } else {
-      toast.error('Maydon bosh bolmasligi kerak!');
+      toast.error("Maydon bo‘sh bo‘lmasligi kerak!");
     }
   };
+
   const handeDelete = (id) => {
     deleMutate(id)
   };
@@ -161,14 +166,13 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
     </div>
   );
 
-
   return (
     <div className='wrapper'>
       <div className="container">
         <ToastContainer position="top-left"
           reverseOrder={true} />
         <h1>Todo List</h1>
-        {/* <input onChange={bannerChange} type="file" style={{ marginBottom: '10px' }} /> */}
+        <input type="file" onChange={(e) => setBanner(e.target.files[0])} style={{ marginBottom: '10px' }} />
         <div className="input-section">
           <input
             value={addata}
@@ -221,7 +225,7 @@ h78.747C231.693,100.736,232.77,106.162,232.77,111.694z"
 
 
               </label>
-              {/* <img src={image} alt="" /> */}
+              <img className='userImg' style={{ width: '40px' }} src={item.banner ? `http://localhost:3000${item.banner}` : defaultuser} alt="img" />
               <span style={{ textDecoration: item.created ? 'line-through' : '' }}>
                 <span>{item.task}</span>
               </span>

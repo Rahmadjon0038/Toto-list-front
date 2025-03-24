@@ -13,16 +13,26 @@ export const useGetData = () => {
 export const usePostdata = () => {
     const queryClient = useQueryClient();
     const mutation = useMutation({
-        mutationFn: (addata) =>
-            axios.post('http://localhost:3000/addTasks', { task: addata }).then((res) => res.data),
+        mutationFn: ({ task, banner }) => { // Parametrlar obyekt sifatida qabul qilinadi
+            const formData = new FormData(); // FormData yaratish
+            formData.append('task', task);   // Task matnini qo‘shish
+            formData.append('banner', banner); // Rasm faylini qo‘shish
+
+            return axios.post('http://localhost:3000/addTasks', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Fayl yuborish uchun zarur
+                },
+            }).then((res) => res.data);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries(['todos']);
-            toast.success("Task mofaqqiyatli qo'shildi")
+            toast.success("Task muvaffaqiyatli qo'shildi");
         },
-        onError: () => toast.error("Todo qo'shishda xatolik")
+        onError: () => toast.error("Todo qo'shishda xatolik"),
     });
-    return mutation
-}
+
+    return mutation;
+};
 
 export const useDelete = (id) => {
     const queryClient = useQueryClient();
