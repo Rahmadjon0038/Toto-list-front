@@ -22,5 +22,5 @@ Frontend orqali foydalanuvchi tasklarni boshqarishi mumkin.
 
 1. Loyihani yuklab oling yoki klon qiling:
    ```bash
-   git clone https://github.com/username/todolist-frontend.git
+   git clone https://github.com/Rahmadjon0038/todolist-frontend.git
 
